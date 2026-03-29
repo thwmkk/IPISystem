@@ -1,5 +1,32 @@
-venv/
-.env
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Python
 __pycache__/
-*.pyc
-db.sqlite3
+*.py[cod]
+*.egg-info/
+backend/venv/
+venv/
+.venv/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# Build
+frontend/dist/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Django
+*.sqlite3
+media/
+staticfiles/
