@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Мои работы — IPI System</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">IPI</div>
+      <div><div class="logo-title">IPI System</div><span class="logo-sub">Scientific KPI</span></div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">
+        <span class="nav-label">Основное</span>
+        <div class="nav-item">Главная</div>
+        <div class="nav-item active">Мои работы</div>
+        <div class="nav-item">Задачи</div>
+        <div class="nav-item">Проекты</div>
+        <div class="nav-item">Мой KPI</div>
+      </div>
+      <div class="nav-section">
+        <span class="nav-label">Управление</span>
+        <div class="nav-item">Мой отдел</div>
+        <div class="nav-item">Настройка KPI</div>
+        <div class="nav-item">Сотрудники</div>
+      </div>
+    </nav>
+    <div class="user-card">
+      <div class="user-avatar">ИФ</div>
+      <div><div class="user-name">Имя Фамилия</div><div class="user-role">Должность</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <div class="header-title">Мои работы</div>
+      <span class="muted">Имя Отчество Фамилия</span>
+    </div>
+
+    <div class="content">
+      <div class="page-top">
+        <div>
+          <h1 class="page-title">Мои работы</h1>
+          <p class="page-subtitle">Управление научными, организационными и техническими работами</p>
+        </div>
+        <button class="btn btn-primary">+ Добавить работу</button>
+      </div>
+
+      <div class="filters-bar">
+        <input class="input" style="width: 240px;" placeholder="🔍 Поиск по названию" />
+        <select class="select" style="width: 180px;"><option>Категория: все</option></select>
+        <select class="select" style="width: 160px;"><option>Статус: все</option></select>
+        <input class="input" style="width: 280px;" placeholder="Дата от — до" />
+        <button class="btn btn-ghost">Сбросить</button>
+      </div>
+
+      <div class="card" style="padding: 0;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width: 40px;"></th>
+              <th>Название</th>
+              <th>Категория</th>
+              <th>Тип работы</th>
+              <th>Дата</th>
+              <th style="text-align: center;">Баллы</th>
+              <th>Статус</th>
+              <th style="width: 80px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>▸</td>
+              <td><b>Название работы</b></td>
+              <td><span class="tag tag-primary">Научная</span></td>
+              <td>Тип показателя</td>
+              <td>00.00.0000</td>
+              <td style="text-align: center;"><span class="points-badge">00.0</span></td>
+              <td><span class="tag tag-success">Подтверждено</span></td>
+              <td style="text-align: right;"><span class="muted">⋯</span></td>
+            </tr>
+            <tr>
+              <td>▸</td>
+              <td><b>Название работы</b></td>
+              <td><span class="tag tag-primary">Научная</span></td>
+              <td>Тип показателя</td>
+              <td>00.00.0000</td>
+              <td style="text-align: center;"><span class="muted">—</span></td>
+              <td><span class="tag tag-warning">Ожидает</span></td>
+              <td style="text-align: right;"><span class="muted">⋯</span></td>
+            </tr>
+            <tr>
+              <td>▸</td>
+              <td><b>Название работы</b></td>
+              <td><span class="tag tag-warning">Организационная</span></td>
+              <td>Тип показателя</td>
+              <td>00.00.0000</td>
+              <td style="text-align: center;"><span class="points-badge">00.0</span></td>
+              <td><span class="tag tag-success">Подтверждено</span></td>
+              <td style="text-align: right;"><span class="muted">⋯</span></td>
+            </tr>
+            <tr style="background: var(--bg);">
+              <td>▾</td>
+              <td colspan="7" style="padding: 16px 24px;">
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 16px;">
+                  <div style="font-weight: 600; margin-bottom: 12px;">Информация</div>
+                  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
+                    <div><div class="muted" style="font-size: 11px; text-transform: uppercase;">Название</div><div>Название работы</div></div>
+                    <div><div class="muted" style="font-size: 11px; text-transform: uppercase;">Категория</div><div>Научная</div></div>
+                    <div><div class="muted" style="font-size: 11px; text-transform: uppercase;">Тип работы</div><div>Тип показателя</div></div>
+                    <div><div class="muted" style="font-size: 11px; text-transform: uppercase;">Баллы</div><div><span class="points-badge">00.0</span></div></div>
+                    <div><div class="muted" style="font-size: 11px; text-transform: uppercase;">Дата</div><div>00.00.0000</div></div>
+                    <div><div class="muted" style="font-size: 11px; text-transform: uppercase;">Журнал</div><div>Название журнала · Q0 · Scopus</div></div>
+                  </div>
+                  <div style="border-top: 1px solid var(--border); padding-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 13px; font-weight: 600;">📎 Прикреплённые файлы (0)</div>
+                    <button class="btn btn-sm">+ Добавить файл</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>▸</td>
+              <td><b>Название работы</b></td>
+              <td><span class="tag tag-info">Техническая</span></td>
+              <td>Тип показателя</td>
+              <td>00.00.0000</td>
+              <td style="text-align: center;"><span class="points-badge">00.0</span></td>
+              <td><span class="tag tag-success">Подтверждено</span></td>
+              <td style="text-align: right;"><span class="muted">⋯</span></td>
+            </tr>
+            <tr>
+              <td>▸</td>
+              <td><b>Название работы</b></td>
+              <td><span class="tag tag-primary">Научная</span></td>
+              <td>Тип показателя</td>
+              <td>00.00.0000</td>
+              <td style="text-align: center;"><span class="muted">—</span></td>
+              <td><span class="tag tag-warning">Ожидает</span></td>
+              <td style="text-align: right;"><span class="muted">⋯</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

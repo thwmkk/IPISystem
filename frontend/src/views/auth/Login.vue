@@ -8,31 +8,26 @@
         </div>
         <h1 class="brand-title">IPI System</h1>
         <p class="brand-desc">
-          Система учёта индивидуальных показателей<br />
-          эффективности научных сотрудников
+          Информационная система оценки индивидуальных<br />
+          показателей эффективности научных сотрудников
         </p>
-        <div class="brand-features">
-          <div class="feature">
-            <el-icon :size="18"><DataLine /></el-icon>
-            <span>Отслеживание KPI в реальном времени</span>
-          </div>
-          <div class="feature">
-            <el-icon :size="18"><Document /></el-icon>
-            <span>Учёт научных и технических работ</span>
-          </div>
-          <div class="feature">
-            <el-icon :size="18"><CircleCheck /></el-icon>
-            <span>Верификация и контроль качества</span>
-          </div>
-        </div>
       </div>
     </div>
 
     <!-- Right side — form -->
     <div class="login-form-side">
       <div class="login-form-wrapper">
-        <h2 class="form-title">Вход в систему</h2>
-        <p class="form-subtitle">Введите данные для входа в IPI System</p>
+        <h2 class="form-title">Авторизация</h2>
+        <p class="form-subtitle">Введите учётные данные для входа в систему</p>
+
+        <el-alert
+          v-if="loginError"
+          :title="loginError"
+          type="error"
+          show-icon
+          :closable="false"
+          style="margin-bottom: 20px"
+        />
 
         <el-form
           :model="form"
@@ -85,9 +80,6 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/auth";
 import {
   TrendCharts,
-  DataLine,
-  Document,
-  CircleCheck,
   Message,
   Lock,
 } from "@element-plus/icons-vue";
@@ -107,17 +99,22 @@ const rules = {
   password: [{ required: true, message: "Введите пароль", trigger: "blur" }],
 };
 
+const loginError = ref("");
+
 const handleLogin = async () => {
   const valid = await formRef.value?.validate().catch(() => false);
   if (!valid) return;
 
   loading.value = true;
-  // TODO: API call
-  setTimeout(() => {
-    auth.isAuthenticated = true;
-    loading.value = false;
+  loginError.value = "";
+  try {
+    await auth.login(form.email, form.password);
     router.push("/dashboard");
-  }, 800);
+  } catch (err: any) {
+    loginError.value = err.response?.data?.detail || "Ошибка входа";
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 
@@ -191,25 +188,15 @@ const handleLogin = async () => {
   font-size: 16px;
   color: #94a3b8;
   line-height: 1.6;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
 }
 
-.brand-features {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.feature {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: #cbd5e1;
+.brand-org {
   font-size: 14px;
-}
-
-.feature .el-icon {
-  color: var(--primary);
+  color: #cbd5e1;
+  line-height: 1.5;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Right — form */

@@ -5,9 +5,18 @@ from .models import (
     ScientificWork, Publication, Article, Monograph,
     Dissertation, ProjectParticipation, Software,
     OrganizationalWork, TechnicalWork,
-    KPIGroup, KPIWeight, KPIResult,
-    Task,
+    KPIGroup, KPIIndicator, KPIResult,
+    Project, ProjectMember,
+    Task, Rule,
 )
+
+
+@admin.register(Rule)
+class RuleAdmin(admin.ModelAdmin):
+    list_display = ['rule_type', 'description', 'min_value', 'max_value', 'coefficient', 'priority']
+    list_filter = ['rule_type']
+    list_editable = ['coefficient', 'priority']
+    ordering = ['rule_type', 'priority']
 
 
 @admin.register(Department)
@@ -22,8 +31,8 @@ class UserRoleAdmin(admin.ModelAdmin):
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ['id', 'full_name', 'email', 'position', 'department', 'role']
-    list_filter = ['department', 'role', 'is_phd_student']
+    list_display = ['id', 'full_name', 'email', 'position', 'position_type', 'department', 'role']
+    list_filter = ['department', 'role', 'position_type']
     search_fields = ['full_name', 'email']
 
 
@@ -83,13 +92,18 @@ class TechnicalWorkAdmin(admin.ModelAdmin):
 
 @admin.register(KPIGroup)
 class KPIGroupAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'metric_group', 'base_points', 'department']
+    list_display = ['id', 'name', 'group_weight', 'department']
 
 
-@admin.register(KPIWeight)
-class KPIWeightAdmin(admin.ModelAdmin):
-    list_display = ['id', 'kpi_group', 'position', 'group_weight', 'weight']
-    list_filter = ['position']
+class KPIIndicatorInline(admin.TabularInline):
+    model = KPIIndicator
+    extra = 1
+
+
+@admin.register(KPIIndicator)
+class KPIIndicatorAdmin(admin.ModelAdmin):
+    list_display = ['id', 'kpi_group', 'name', 'work_type_key', 'weight']
+    list_filter = ['kpi_group']
 
 
 @admin.register(KPIResult)
@@ -98,7 +112,17 @@ class KPIResultAdmin(admin.ModelAdmin):
     list_filter = ['year', 'quarter']
 
 
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'budget', 'start_date', 'end_date', 'creator']
+
+
+@admin.register(ProjectMember)
+class ProjectMemberAdmin(admin.ModelAdmin):
+    list_display = ['id', 'project', 'employee', 'joined_at']
+
+
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'status', 'priority', 'deadline', 'assigned_to', 'created_by']
+    list_display = ['id', 'title', 'status', 'priority', 'deadline', 'assigned_to', 'created_by', 'project']
     list_filter = ['status', 'priority']

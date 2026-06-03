@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Мой отдел — IPI System</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .emp-cell { display: flex; align-items: center; gap: 10px; }
+    .ipi-cell { display: inline-flex; align-items: center; gap: 8px; }
+    .ipi-bar { width: 60px; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+    .ipi-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); }
+    .ipi-num { font-size: 13px; font-weight: 600; min-width: 36px; }
+
+    .compare-row {
+      display: grid; grid-template-columns: 36px 200px 1fr 90px 32px;
+      gap: 16px; align-items: center; padding: 12px 14px;
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+      margin-bottom: 8px; cursor: pointer;
+    }
+    .compare-rank { font-size: 16px; font-weight: 700; color: var(--primary); text-align: center; }
+    .compare-bar { height: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 6px; }
+    .compare-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); }
+    .num-block { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-secondary); margin-right: 12px; }
+    .compare-ipi { display: flex; flex-direction: column; align-items: center; }
+    .ipi-num-big { font-size: 22px; font-weight: 700; }
+    .ipi-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+
+    .expanded-detail {
+      background: #fff; border: 1px solid var(--border); border-top: none;
+      padding: 16px 18px; margin-top: -10px; border-radius: 0 0 var(--radius) var(--radius);
+      margin-bottom: 8px;
+    }
+    .detail-section { margin-bottom: 16px; }
+    .section-title-sm { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+    .section-sub { font-size: 12px; color: var(--text-muted); font-weight: 400; margin-left: 8px; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">IPI</div>
+      <div><div class="logo-title">IPI System</div><span class="logo-sub">Scientific KPI</span></div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">
+        <span class="nav-label">Основное</span>
+        <div class="nav-item">Главная</div>
+        <div class="nav-item">Мои работы</div>
+        <div class="nav-item">Задачи</div>
+        <div class="nav-item">Проекты</div>
+        <div class="nav-item">Мой KPI</div>
+      </div>
+      <div class="nav-section">
+        <span class="nav-label">Управление</span>
+        <div class="nav-item active">Мой отдел</div>
+        <div class="nav-item">Настройка KPI</div>
+        <div class="nav-item">Сотрудники</div>
+      </div>
+    </nav>
+    <div class="user-card">
+      <div class="user-avatar">ИФ</div>
+      <div><div class="user-name">Имя Фамилия</div><div class="user-role">Руководитель</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <div class="header-title">Мой отдел</div>
+      <span class="muted">Имя Отчество Фамилия</span>
+    </div>
+
+    <div class="content">
+      <div class="page-top">
+        <div>
+          <h1 class="page-title">Мой отдел</h1>
+          <p class="page-subtitle">Сотрудники, статистика, верификация</p>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active">Сотрудники</div>
+        <div class="tab">Сравнение</div>
+        <div class="tab">Верификация</div>
+      </div>
+
+      <div class="filters-bar">
+        <div class="flex gap-8">
+          <button class="btn btn-primary btn-sm">Месяц</button>
+          <button class="btn btn-sm">Квартал</button>
+          <button class="btn btn-sm">Год</button>
+        </div>
+        <input class="input" style="width: 120px;" value="0000" />
+        <select class="select" style="width: 140px;"><option>Месяц / Q0</option></select>
+      </div>
+
+      <!-- Tab 1: Сотрудники -->
+      <div class="card" style="padding: 0;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Сотрудник</th>
+              <th style="text-align: center;">IPI</th>
+              <th style="text-align: center;">Работы</th>
+              <th style="text-align: center;">Задачи</th>
+              <th style="text-align: center;">Проектов</th>
+              <th style="width: 60px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar">ИФ</div>
+                  <div>
+                    <div style="font-weight: 500;">Имя Отчество Фамилия</div>
+                    <div class="muted" style="font-size: 11px;">Должность · категория</div>
+                  </div>
+                </div>
+              </td>
+              <td style="text-align: center;">
+                <div class="ipi-cell">
+                  <div class="ipi-bar"><div class="ipi-bar-fill" style="width: 80%;"></div></div>
+                  <span class="ipi-num">000.0</span>
+                </div>
+              </td>
+              <td style="text-align: center;">
+                <b>00</b><span class="muted"> / 00</span>
+                <span class="tag tag-warning" style="margin-left: 6px;">ожидает 0</span>
+              </td>
+              <td style="text-align: center;">
+                <b>00</b><span class="muted"> / 00</span>
+              </td>
+              <td style="text-align: center;">00</td>
+              <td>👤</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar">ИФ</div>
+                  <div>
+                    <div style="font-weight: 500;">Имя Отчество Фамилия</div>
+                    <div class="muted" style="font-size: 11px;">Должность · категория</div>
+                  </div>
+                </div>
+              </td>
+              <td style="text-align: center;">
+                <div class="ipi-cell">
+                  <div class="ipi-bar"><div class="ipi-bar-fill" style="width: 50%;"></div></div>
+                  <span class="ipi-num">000.0</span>
+                </div>
+              </td>
+              <td style="text-align: center;"><b>00</b><span class="muted"> / 00</span></td>
+              <td style="text-align: center;">
+                <b>00</b><span class="muted"> / 00</span>
+                <span class="tag tag-danger" style="margin-left: 6px;">просрочено 0</span>
+              </td>
+              <td style="text-align: center;">00</td>
+              <td>👤</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar">ИФ</div>
+                  <div>
+                    <div style="font-weight: 500;">Имя Отчество Фамилия</div>
+                    <div class="muted" style="font-size: 11px;">Аспирант · 0 курс</div>
+                  </div>
+                </div>
+              </td>
+              <td style="text-align: center;">
+                <div class="ipi-cell">
+                  <div class="ipi-bar"><div class="ipi-bar-fill" style="width: 30%;"></div></div>
+                  <span class="ipi-num">00.0</span>
+                </div>
+              </td>
+              <td style="text-align: center;"><b>00</b><span class="muted"> / 00</span></td>
+              <td style="text-align: center;"><b>00</b><span class="muted"> / 00</span></td>
+              <td style="text-align: center;">00</td>
+              <td>👤</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar">ИФ</div>
+                  <div>
+                    <div style="font-weight: 500;">Имя Отчество Фамилия</div>
+                    <div class="muted" style="font-size: 11px;">Должность · категория</div>
+                  </div>
+                </div>
+              </td>
+              <td style="text-align: center;">
+                <div class="ipi-cell">
+                  <div class="ipi-bar"><div class="ipi-bar-fill" style="width: 70%;"></div></div>
+                  <span class="ipi-num">000.0</span>
+                </div>
+              </td>
+              <td style="text-align: center;"><b>00</b><span class="muted"> / 00</span></td>
+              <td style="text-align: center;"><b>00</b><span class="muted"> / 00</span></td>
+              <td style="text-align: center;">00</td>
+              <td>👤</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar">ИФ</div>
+                  <div>
+                    <div style="font-weight: 500;">Имя Отчество Фамилия</div>
+                    <div class="muted" style="font-size: 11px;">Должность · категория</div>
+                  </div>
+                </div>
+              </td>
+              <td style="text-align: center;">
+                <div class="ipi-cell">
+                  <div class="ipi-bar"><div class="ipi-bar-fill" style="width: 25%;"></div></div>
+                  <span class="ipi-num">00.0</span>
+                </div>
+              </td>
+              <td style="text-align: center;"><b>0</b><span class="muted"> / 0</span></td>
+              <td style="text-align: center;"><b>00</b><span class="muted"> / 00</span></td>
+              <td style="text-align: center;">0</td>
+              <td>👤</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Section title for compare preview -->
+      <h3 style="font-size: 16px; margin: 32px 0 14px 0;">Предпросмотр вкладки «Сравнение»</h3>
+
+      <div class="compare-row">
+        <div class="compare-rank">1</div>
+        <div>
+          <div style="font-weight: 500;">Имя Отчество Фамилия</div>
+          <div class="muted" style="font-size: 11px;">Должность</div>
+        </div>
+        <div>
+          <div class="compare-bar"><div class="compare-bar-fill" style="width: 95%;"></div></div>
+          <div>
+            <span class="num-block">📄 00/00</span>
+            <span class="num-block">✓ 00/00</span>
+            <span class="num-block">▣ 0</span>
+          </div>
+        </div>
+        <div class="compare-ipi">
+          <span class="ipi-num-big">000.0</span>
+          <span class="ipi-label">IPI</span>
+        </div>
+        <div>▾</div>
+      </div>
+
+      <!-- Expanded -->
+      <div class="expanded-detail">
+        <div class="detail-section">
+          <div class="section-title-sm">Работы (00)</div>
+          <table class="table" style="border: 1px solid var(--border); border-radius: var(--radius);">
+            <thead>
+              <tr>
+                <th>Название</th>
+                <th>Категория</th>
+                <th>Тип</th>
+                <th style="text-align: center;">Баллы</th>
+                <th>Статус</th>
+                <th>Дата</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Название работы</td>
+                <td><span class="tag tag-primary">Научная</span></td>
+                <td>Тип показателя</td>
+                <td style="text-align: center;"><span class="points-badge">00.0</span></td>
+                <td><span class="tag tag-success">Подтверждено</span></td>
+                <td>00.00.0000</td>
+              </tr>
+              <tr>
+                <td>Название работы</td>
+                <td><span class="tag tag-info">Техническая</span></td>
+                <td>Тип показателя</td>
+                <td style="text-align: center;"><span class="points-badge">00.0</span></td>
+                <td><span class="tag tag-warning">Ожидает</span></td>
+                <td>00.00.0000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="detail-section">
+          <div class="section-title-sm">Задачи (00) <span class="section-sub">выполнено: <b>00</b> · просрочено: <b>0</b></span></div>
+          <table class="table" style="border: 1px solid var(--border); border-radius: var(--radius);">
+            <thead>
+              <tr>
+                <th>Название</th>
+                <th>Проект</th>
+                <th>Статус</th>
+                <th>Приоритет</th>
+                <th>Дедлайн</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Название задачи</td>
+                <td>Название проекта</td>
+                <td><span class="tag tag-primary">В работе</span></td>
+                <td><span class="tag tag-warning">Средний</span></td>
+                <td>00.00.0000</td>
+              </tr>
+              <tr>
+                <td>Название задачи</td>
+                <td><span class="muted">— свободная</span></td>
+                <td><span class="tag tag-success">Выполнена</span></td>
+                <td><span class="tag tag-danger">Высокий</span></td>
+                <td>00.00.0000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="detail-section">
+          <div class="section-title-sm">Проекты (00)</div>
+          <ul style="margin: 0; padding: 0; list-style: none;">
+            <li style="padding: 6px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; margin-bottom: 4px; display: flex; gap: 8px; align-items: center;">
+              <span>▣</span>
+              <span style="font-weight: 500;">Название проекта</span>
+              <span class="muted" style="font-size: 12px;">00.00.0000 — 00.00.0000</span>
+              <span style="margin-left: auto;">→</span>
+            </li>
+            <li style="padding: 6px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; display: flex; gap: 8px; align-items: center;">
+              <span>▣</span>
+              <span style="font-weight: 500;">Название проекта</span>
+              <span class="tag tag-info">завершён 00.00.0000</span>
+              <span style="margin-left: auto;">→</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="compare-row">
+        <div class="compare-rank">2</div>
+        <div>
+          <div style="font-weight: 500;">Имя Отчество Фамилия</div>
+          <div class="muted" style="font-size: 11px;">Должность</div>
+        </div>
+        <div>
+          <div class="compare-bar"><div class="compare-bar-fill" style="width: 70%;"></div></div>
+          <div>
+            <span class="num-block">📄 00/00</span>
+            <span class="num-block">✓ 00/00</span>
+            <span class="num-block">▣ 0</span>
+          </div>
+        </div>
+        <div class="compare-ipi">
+          <span class="ipi-num-big">000.0</span>
+          <span class="ipi-label">IPI</span>
+        </div>
+        <div>▸</div>
+      </div>
+
+      <div class="compare-row">
+        <div class="compare-rank">3</div>
+        <div>
+          <div style="font-weight: 500;">Имя Отчество Фамилия</div>
+          <div class="muted" style="font-size: 11px;">Должность</div>
+        </div>
+        <div>
+          <div class="compare-bar"><div class="compare-bar-fill" style="width: 45%;"></div></div>
+          <div>
+            <span class="num-block">📄 0/00</span>
+            <span class="num-block">✓ 00/00</span>
+            <span class="num-block" style="color: var(--danger);">⚠ 0</span>
+            <span class="num-block">▣ 0</span>
+          </div>
+        </div>
+        <div class="compare-ipi">
+          <span class="ipi-num-big">00.0</span>
+          <span class="ipi-label">IPI</span>
+        </div>
+        <div>▸</div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

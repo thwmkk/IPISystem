@@ -13,9 +13,12 @@ router.register(r'scientific-works', views.ScientificWorkViewSet)
 router.register(r'organizational-works', views.OrganizationalWorkViewSet)
 router.register(r'technical-works', views.TechnicalWorkViewSet)
 router.register(r'kpi-groups', views.KPIGroupViewSet)
-router.register(r'kpi-weights', views.KPIWeightViewSet)
+router.register(r'kpi-indicators', views.KPIIndicatorViewSet)
+router.register(r'kpi-group-weights', views.KPIGroupWeightViewSet)
 router.register(r'kpi-results', views.KPIResultViewSet)
+router.register(r'projects', views.ProjectViewSet)
 router.register(r'tasks', views.TaskViewSet)
+router.register(r'attachments', views.AttachmentViewSet)
 
 urlpatterns = [
     # Auth
@@ -26,11 +29,15 @@ urlpatterns = [
     # IPI calculation
     path('ipi/calculate/', views.calculate_ipi_view, name='calculate_ipi'),
     path('ipi/recalculate-all/', views.recalculate_all_view, name='recalculate_all'),
+    path('ipi/breakdown/', views.ipi_breakdown_view, name='ipi_breakdown'),
 
-    # Rule Engine
-    path('weights/preview/<int:employee_id>/', views.preview_weights_view, name='preview_weights'),
-    path('weights/assign/<int:employee_id>/', views.assign_weights_view, name='assign_weights'),
-    path('weights/assign-all/', views.assign_weights_all_view, name='assign_weights_all'),
+    # Department stats (для «Мой отдел»)
+    path('department/stats/', views.department_stats_view, name='department_stats'),
+    path('department/employee/<int:employee_id>/details/', views.department_employee_detail_view, name='department_employee_detail'),
+
+    # Экспорт отчётов
+    path('department/report/', views.department_report_view, name='department_report'),
+    path('department/employee/<int:employee_id>/report/', views.employee_report_view, name='employee_report'),
 
     # CRUD
     path('', include(router.urls)),

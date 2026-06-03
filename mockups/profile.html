@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Профиль — IPI System</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .profile-hero {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-xl);
+      padding: 40px; display: flex; align-items: center; gap: 32px; margin-bottom: 24px;
+    }
+    .hero-name { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+    .hero-position { font-size: 15px; color: var(--text-secondary); margin-top: 4px; margin-bottom: 8px; }
+
+    .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .info-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 20px; display: flex; align-items: center; gap: 16px;
+    }
+    .info-icon {
+      width: 44px; height: 44px; border-radius: 12px; display: flex;
+      align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px;
+    }
+    .ic-email { background: var(--primary-light); color: var(--primary); }
+    .ic-dept { background: var(--success-light); color: var(--success); }
+    .ic-age { background: var(--accent-light); color: var(--accent); }
+    .ic-exp { background: var(--warning-light); color: var(--warning); }
+    .ic-degree { background: var(--danger-light); color: var(--danger); }
+    .ic-phd { background: #f0f9ff; color: #0ea5e9; }
+    .info-label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+    .info-value { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">IPI</div>
+      <div><div class="logo-title">IPI System</div><span class="logo-sub">Scientific KPI</span></div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">
+        <span class="nav-label">Основное</span>
+        <div class="nav-item">Главная</div>
+        <div class="nav-item">Мои работы</div>
+        <div class="nav-item">Задачи</div>
+        <div class="nav-item">Проекты</div>
+        <div class="nav-item">Мой KPI</div>
+      </div>
+      <div class="nav-section">
+        <span class="nav-label">Управление</span>
+        <div class="nav-item">Мой отдел</div>
+        <div class="nav-item">Настройка KPI</div>
+        <div class="nav-item">Сотрудники</div>
+      </div>
+    </nav>
+    <div class="user-card">
+      <div class="user-avatar">ИФ</div>
+      <div><div class="user-name">Имя Фамилия</div><div class="user-role">Должность</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <div class="header-title">Профиль</div>
+      <span class="muted">Имя Отчество Фамилия</span>
+    </div>
+
+    <div class="content">
+      <div class="page-top">
+        <div>
+          <h1 class="page-title">Профиль</h1>
+          <p class="page-subtitle">Информация о сотруднике</p>
+        </div>
+        <button class="btn btn-primary">✎ Редактировать</button>
+      </div>
+
+      <div class="profile-hero">
+        <div class="avatar-lg">ИФ</div>
+        <div>
+          <h2 class="hero-name">Имя Отчество Фамилия</h2>
+          <p class="hero-position">Должность сотрудника</p>
+          <span class="tag tag-primary">Роль</span>
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-icon ic-email">✉</div>
+          <div>
+            <div class="info-label">Email</div>
+            <div class="info-value">email@example.ru</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon ic-dept">🏛</div>
+          <div>
+            <div class="info-label">Подразделение</div>
+            <div class="info-value">Название отдела</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon ic-age">👤</div>
+          <div>
+            <div class="info-label">Возраст</div>
+            <div class="info-value">00 лет</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon ic-exp">⏱</div>
+          <div>
+            <div class="info-label">Стаж</div>
+            <div class="info-value">00 лет</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon ic-degree">🎓</div>
+          <div>
+            <div class="info-label">Научная степень</div>
+            <div class="info-value">к.т.н.</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon ic-phd">📚</div>
+          <div>
+            <div class="info-label">Категория</div>
+            <div class="info-value">Категория должности (курс)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

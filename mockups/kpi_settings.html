@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Настройка KPI — IPI System</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .formula-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 16px 20px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .formula { font-size: 17px; font-weight: 600; color: var(--primary); }
+    .formula-desc { font-size: 13px; color: var(--text-secondary); }
+
+    .weights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .weight-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 18px 20px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .weight-card-head { display: flex; align-items: center; gap: 10px; }
+    .weight-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .weight-dot.sci { background: var(--primary); }
+    .weight-dot.tech { background: var(--warning); }
+    .weight-dot.org { background: var(--success); }
+    .weight-name { font-size: 15px; font-weight: 600; }
+    .weight-input-row { display: flex; align-items: center; gap: 10px; }
+
+    .ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .ref-block {
+      background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 14px 18px;
+    }
+    .ref-block h4 { font-size: 14px; color: var(--primary); margin-bottom: 10px; }
+    .ref-block ul { margin: 0; padding-left: 18px; }
+    .ref-block li { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+    .ref-formula {
+      margin-top: 24px; padding: 16px 20px; background: var(--primary-soft);
+      border-radius: var(--radius); font-size: 15px; font-weight: 600;
+      color: var(--primary); text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">IPI</div>
+      <div><div class="logo-title">IPI System</div><span class="logo-sub">Scientific KPI</span></div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">
+        <span class="nav-label">Основное</span>
+        <div class="nav-item">Главная</div>
+        <div class="nav-item">Мои работы</div>
+        <div class="nav-item">Задачи</div>
+        <div class="nav-item">Проекты</div>
+        <div class="nav-item">Мой KPI</div>
+      </div>
+      <div class="nav-section">
+        <span class="nav-label">Управление</span>
+        <div class="nav-item">Мой отдел</div>
+        <div class="nav-item active">Настройка KPI</div>
+        <div class="nav-item">Сотрудники</div>
+      </div>
+    </nav>
+    <div class="user-card">
+      <div class="user-avatar">ИФ</div>
+      <div><div class="user-name">Имя Фамилия</div><div class="user-role">Администратор</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <div class="header-title">Настройка KPI</div>
+      <span class="muted">Имя Отчество Фамилия</span>
+    </div>
+
+    <div class="content">
+      <div class="page-top">
+        <div>
+          <h1 class="page-title">Настройка KPI</h1>
+          <p class="page-subtitle">Веса групп W<sub>i</sub> по должности · базовые веса показателей W<sub>base</sub></p>
+        </div>
+        <div class="flex gap-12">
+          <select class="select" style="width: 280px;"><option>Подразделение — название</option></select>
+          <button class="btn btn-primary">Пересчитать IPI для всех</button>
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <span class="formula">IPI = Σ ( W<sub>i</sub> × Σ ( W<sub>ij</sub> × B<sub>ij</sub> ) )</span>
+        <span class="formula-desc">W<sub>ij</sub> = W<sub>base</sub> × k<sub>возраст</sub> × k<sub>стаж</sub> × k<sub>аспирант</sub> — поправочные коэффициенты считаются автоматически по профилю сотрудника.</span>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active">Веса групп (W<sub>i</sub>) по должности</div>
+        <div class="tab">Показатели (W<sub>base</sub>)</div>
+        <div class="tab">Поправочные коэффициенты</div>
+      </div>
+
+      <div class="filters-bar">
+        <span class="text-secondary">Должность:</span>
+        <select class="select" style="width: 240px;"><option>Категория должности</option></select>
+        <span class="text-secondary">Курс аспирантуры:</span>
+        <select class="select" style="width: 140px;"><option>0 курс</option></select>
+      </div>
+
+      <!-- Tab: Веса групп -->
+      <div class="weights-grid" style="margin-bottom: 32px;">
+        <div class="weight-card">
+          <div class="weight-card-head">
+            <div class="weight-dot sci"></div>
+            <h3 class="weight-name">Научные</h3>
+          </div>
+          <div class="weight-input-row">
+            <span style="font-weight: 600; color: var(--text-secondary);">W<sub>i</sub> =</span>
+            <input class="input" type="number" value="0.00" style="max-width: 120px;" />
+            <span class="tag tag-success">сохранено</span>
+          </div>
+        </div>
+
+        <div class="weight-card">
+          <div class="weight-card-head">
+            <div class="weight-dot tech"></div>
+            <h3 class="weight-name">Технические</h3>
+          </div>
+          <div class="weight-input-row">
+            <span style="font-weight: 600; color: var(--text-secondary);">W<sub>i</sub> =</span>
+            <input class="input" type="number" value="0.00" style="max-width: 120px;" />
+          </div>
+        </div>
+
+        <div class="weight-card">
+          <div class="weight-card-head">
+            <div class="weight-dot org"></div>
+            <h3 class="weight-name">Организационные</h3>
+          </div>
+          <div class="weight-input-row">
+            <span style="font-weight: 600; color: var(--text-secondary);">W<sub>i</sub> =</span>
+            <input class="input" type="number" value="0.00" style="max-width: 120px;" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview second tab -->
+      <h3 style="font-size: 16px; margin-bottom: 14px;">Предпросмотр вкладки «Показатели (W<sub>base</sub>)»</h3>
+
+      <div class="card" style="padding: 0; margin-bottom: 16px;">
+        <div style="padding: 14px 20px; background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;">
+          <div class="weight-dot sci"></div>
+          <h3 style="font-size: 15px;">Научные</h3>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Показатель</th>
+              <th>Ключ</th>
+              <th style="text-align: center;">W<sub>base</sub></th>
+              <th style="width: 60px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Название показателя</b></td>
+              <td><span style="font-family: monospace; font-size: 12px; color: var(--text-muted);">work_type_key</span></td>
+              <td style="text-align: center;"><input class="input" type="number" value="0.00" style="max-width: 100px; margin: 0 auto; display: block;" /></td>
+              <td><span class="muted">🗑</span></td>
+            </tr>
+            <tr>
+              <td><b>Название показателя</b></td>
+              <td><span style="font-family: monospace; font-size: 12px; color: var(--text-muted);">work_type_key</span></td>
+              <td style="text-align: center;"><input class="input" type="number" value="0.00" style="max-width: 100px; margin: 0 auto; display: block;" /></td>
+              <td><span class="muted">🗑</span></td>
+            </tr>
+            <tr>
+              <td><b>Название показателя</b></td>
+              <td><span style="font-family: monospace; font-size: 12px; color: var(--text-muted);">work_type_key</span></td>
+              <td style="text-align: center;"><input class="input" type="number" value="0.00" style="max-width: 100px; margin: 0 auto; display: block;" /></td>
+              <td><span class="muted">🗑</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="padding: 12px 20px; border-top: 1px solid var(--border);">
+          <button class="btn btn-sm">+ Добавить показатель</button>
+        </div>
+      </div>
+
+      <!-- Preview third tab -->
+      <h3 style="font-size: 16px; margin: 32px 0 14px 0;">Предпросмотр вкладки «Поправочные коэффициенты»</h3>
+
+      <div class="card">
+        <h3 style="font-size: 16px; margin-bottom: 8px;">Как считаются k<sub>возраст</sub>, k<sub>стаж</sub>, k<sub>аспирант</sub></h3>
+        <p class="text-secondary" style="margin-bottom: 20px;">Эти коэффициенты применяются автоматически и являются частью формулы.</p>
+        <div class="ref-grid">
+          <div class="ref-block">
+            <h4>k<sub>возраст</sub></h4>
+            <ul>
+              <li>≤ 30 лет → <b>×1.2</b></li>
+              <li>31–45 лет → <b>×1.0</b></li>
+              <li>&gt; 45 лет → <b>×0.9</b></li>
+            </ul>
+          </div>
+          <div class="ref-block">
+            <h4>k<sub>стаж</sub></h4>
+            <ul>
+              <li>≤ 5 лет → <b>×1.2</b></li>
+              <li>6–15 лет → <b>×1.0</b></li>
+              <li>&gt; 15 лет → <b>×0.9</b></li>
+            </ul>
+          </div>
+          <div class="ref-block">
+            <h4>k<sub>аспирант</sub></h4>
+            <ul>
+              <li>не аспирант → <b>×1.0</b></li>
+              <li>1 курс → <b>×1.1</b></li>
+              <li>2–3 курс → <b>×1.2</b></li>
+              <li>4 курс → <b>×1.3</b></li>
+            </ul>
+          </div>
+        </div>
+        <div class="ref-formula">
+          W<sub>ij</sub> = W<sub>base</sub> × k<sub>возраст</sub> × k<sub>стаж</sub> × k<sub>аспирант</sub>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

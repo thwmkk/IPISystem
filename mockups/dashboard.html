@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Главная — IPI System</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .stat-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 20px; display: flex; flex-direction: column; gap: 6px;
+    }
+    .stat-icon {
+      width: 40px; height: 40px; border-radius: 10px; display: flex;
+      align-items: center; justify-content: center; margin-bottom: 8px;
+    }
+    .stat-num { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+    .stat-lbl { font-size: 13px; color: var(--text-secondary); }
+    .stat-trend { font-size: 12px; color: var(--success); margin-top: 4px; }
+
+    .grid-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+    .activity-list { display: flex; flex-direction: column; gap: 12px; }
+    .activity-item {
+      display: flex; gap: 12px; padding: 12px; background: var(--bg);
+      border-radius: var(--radius); align-items: center;
+    }
+    .act-num { font-size: 24px; font-weight: 700; color: var(--primary); }
+    .act-text { flex: 1; }
+    .act-title { font-weight: 500; font-size: 13px; }
+    .act-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">IPI</div>
+      <div>
+        <div class="logo-title">IPI System</div>
+        <span class="logo-sub">Scientific KPI</span>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">
+        <span class="nav-label">Основное</span>
+        <div class="nav-item active">Главная</div>
+        <div class="nav-item">Мои работы</div>
+        <div class="nav-item">Задачи</div>
+        <div class="nav-item">Проекты</div>
+        <div class="nav-item">Мой KPI</div>
+      </div>
+      <div class="nav-section">
+        <span class="nav-label">Управление</span>
+        <div class="nav-item">Мой отдел</div>
+        <div class="nav-item">Настройка KPI</div>
+        <div class="nav-item">Сотрудники</div>
+      </div>
+    </nav>
+    <div class="user-card">
+      <div class="user-avatar">ИФ</div>
+      <div>
+        <div class="user-name">Имя Фамилия</div>
+        <div class="user-role">Должность</div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <div class="header-title">Главная</div>
+      <div class="flex items-center gap-12">
+        <span class="muted">Имя Отчество Фамилия</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="page-top">
+        <div>
+          <h1 class="page-title">Добрый день, Имя!</h1>
+          <p class="page-subtitle">Краткая сводка по вашей активности</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background: var(--primary-light); color: var(--primary)">★</div>
+          <div class="stat-lbl">Текущий IPI</div>
+          <div class="stat-num">000.0</div>
+          <div class="stat-trend">+ 00.0 за квартал</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: var(--success-light); color: var(--success)">✓</div>
+          <div class="stat-lbl">Подтверждено работ</div>
+          <div class="stat-num">00</div>
+          <div class="stat-trend">из 00 всего</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: var(--warning-light); color: var(--warning)">⏱</div>
+          <div class="stat-lbl">Активные задачи</div>
+          <div class="stat-num">00</div>
+          <div class="stat-trend">00 в работе</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background: var(--accent-light); color: var(--accent)">▣</div>
+          <div class="stat-lbl">Проекты</div>
+          <div class="stat-num">00</div>
+          <div class="stat-trend">00 активных</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="flex items-center" style="justify-content: space-between; margin-bottom: 16px;">
+            <h3 style="font-size: 16px;">Последние работы</h3>
+            <a href="#" class="muted" style="font-size: 13px; text-decoration: none;">Все работы →</a>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <span class="tag tag-primary">Научная</span>
+              <div class="act-text">
+                <div class="act-title">Название работы — Lorem ipsum dolor sit amet</div>
+                <div class="act-meta">Тип работы · 00.00.0000</div>
+              </div>
+              <span class="points-badge">00.0</span>
+            </div>
+            <div class="activity-item">
+              <span class="tag tag-warning">Организационная</span>
+              <div class="act-text">
+                <div class="act-title">Название работы — Lorem ipsum dolor sit amet</div>
+                <div class="act-meta">Тип работы · 00.00.0000</div>
+              </div>
+              <span class="points-badge">00.0</span>
+            </div>
+            <div class="activity-item">
+              <span class="tag tag-info">Техническая</span>
+              <div class="act-text">
+                <div class="act-title">Название работы — Lorem ipsum dolor sit amet</div>
+                <div class="act-meta">Тип работы · 00.00.0000</div>
+              </div>
+              <span class="points-badge">00.0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="margin-bottom: 16px;">
+            <h3 style="font-size: 16px;">Заявки на верификацию</h3>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <span class="dot dot-warning"></span>
+              <div class="act-text">
+                <div class="act-title">Название работы</div>
+                <div class="act-meta">Ожидает проверки</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <span class="dot dot-success"></span>
+              <div class="act-text">
+                <div class="act-title">Название работы</div>
+                <div class="act-meta">Подтверждено</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <span class="dot dot-warning"></span>
+              <div class="act-text">
+                <div class="act-title">Название работы</div>
+                <div class="act-meta">Ожидает проверки</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

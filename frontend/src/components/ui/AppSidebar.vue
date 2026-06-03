@@ -17,7 +17,7 @@
         <span class="nav-label">Основное</span>
         <router-link to="/dashboard" class="nav-item" :class="{ active: isActive('/dashboard') }">
           <el-icon><Odometer /></el-icon>
-          <span>Dashboard</span>
+          <span>Главная</span>
         </router-link>
         <router-link to="/employee/works" class="nav-item" :class="{ active: isActive('/employee/works') }">
           <el-icon><Document /></el-icon>
@@ -38,11 +38,15 @@
       </div>
 
       <!-- Manager section -->
-      <div v-if="isManager" class="nav-section">
+      <div v-if="auth.isManager" class="nav-section">
         <span class="nav-label">Управление</span>
-        <router-link to="/manager/verification" class="nav-item" :class="{ active: isActive('/manager/verification') }">
-          <el-icon><CircleCheck /></el-icon>
-          <span>Проверка работ</span>
+        <router-link to="/manager/department" class="nav-item" :class="{ active: isActiveStarts('/manager/department') }">
+          <el-icon><OfficeBuilding /></el-icon>
+          <span>Мой отдел</span>
+        </router-link>
+        <router-link to="/manager/kpi-settings" class="nav-item" :class="{ active: isActive('/manager/kpi-settings') }">
+          <el-icon><Setting /></el-icon>
+          <span>Настройка KPI</span>
         </router-link>
         <router-link to="/manager/employees" class="nav-item" :class="{ active: isActive('/manager/employees') }">
           <el-icon><User /></el-icon>
@@ -51,11 +55,11 @@
       </div>
 
       <!-- Admin section -->
-      <div v-if="isAdmin" class="nav-section">
+      <div v-if="auth.isAdmin" class="nav-section">
         <span class="nav-label">Администрирование</span>
-        <router-link to="/admin/users" class="nav-item" :class="{ active: isActive('/admin/users') }">
+        <router-link to="/admin/references" class="nav-item" :class="{ active: isActive('/admin/references') }">
           <el-icon><Setting /></el-icon>
-          <span>Пользователи</span>
+          <span>Справочники</span>
         </router-link>
       </div>
     </nav>
@@ -66,8 +70,8 @@
         {{ userInitials }}
       </div>
       <div class="user-info">
-        <span class="user-name">{{ auth.user.name }}</span>
-        <span class="user-role">{{ roleLabel }}</span>
+        <span class="user-name">{{ auth.fullName }}</span>
+        <span class="user-role">{{ auth.roleLabel }}</span>
       </div>
     </div>
   </div>
@@ -83,7 +87,7 @@ import {
   Finished,
   Folder,
   DataLine,
-  CircleCheck,
+  OfficeBuilding,
   User,
   Setting,
   TrendCharts,
@@ -93,21 +97,11 @@ const route = useRoute();
 const auth = useAuthStore();
 
 const isActive = (path: string) => route.path === path;
-const isManager = computed(() => auth.role === "manager" || auth.role === "admin");
-const isAdmin = computed(() => auth.role === "admin");
+const isActiveStarts = (path: string) => route.path.startsWith(path);
 
 const userInitials = computed(() => {
-  const parts = auth.user.name.split(" ");
-  return parts.map((p) => p[0]).join("").slice(0, 2);
-});
-
-const roleLabel = computed(() => {
-  const labels: Record<string, string> = {
-    employee: "Сотрудник",
-    manager: "Менеджер",
-    admin: "Администратор",
-  };
-  return labels[auth.role] || auth.role;
+  const parts = (auth.fullName || 'U').split(' ');
+  return parts.map((p) => p[0]).join('').slice(0, 2);
 });
 </script>
 

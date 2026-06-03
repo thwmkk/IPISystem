@@ -32,13 +32,26 @@ class UserRole(models.Model):
 # ============================================================
 
 class Employee(models.Model):
+    POSITION_TYPE_CHOICES = [
+        ('junior_researcher', 'м.н.с.'),
+        ('researcher', 'н.с.'),
+        ('senior_researcher', 'с.н.с.'),
+        ('engineer', 'инженер'),
+        ('phd_student', 'аспирант'),
+        ('head', 'руководитель отдела'),
+    ]
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='employee', null=True, blank=True)
     full_name = models.CharField(max_length=200)
     email = models.EmailField(max_length=120, unique=True)
     position = models.CharField(max_length=50)
+    position_type = models.CharField(
+        max_length=32, choices=POSITION_TYPE_CHOICES,
+        default='researcher',
+    )
+    phd_year = models.IntegerField(null=True, blank=True)
     age = models.IntegerField()
     experience = models.IntegerField()
-    is_phd_student = models.BooleanField(default=False)
     academic_degree = models.CharField(max_length=50, null=True, blank=True)
     department = models.ForeignKey(Department, on_delete=models.PROTECT, related_name='employees')
     role = models.ForeignKey(UserRole, on_delete=models.PROTECT, related_name='employees')
@@ -211,6 +224,7 @@ class OrganizationalWork(models.Model):
 
 class TechnicalWork(models.Model):
     title = models.CharField(max_length=300)
+    work_type = models.CharField(max_length=100, default='')
     registration_number = models.CharField(max_length=50, null=True, blank=True)
     work_date = models.DateField()
     metric = models.CharField(max_length=50, null=True, blank=True)
@@ -233,29 +247,61 @@ class TechnicalWork(models.Model):
 # ============================================================
 
 class KPIGroup(models.Model):
+    """Группа показателей: Научные, Организационные, Технические."""
     name = models.CharField(max_length=100)
-    metric_group = models.CharField(max_length=50, null=True, blank=True)
-    base_points = models.FloatField(default=0)
+    group_weight = models.FloatField(default=1.0, help_text='Wi — вес группы')
     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='kpi_groups')
 
     class Meta:
         db_table = 'kpi_group'
 
     def __str__(self):
-        return self.name
+        return f'{self.name} (Wi={self.group_weight})'
 
 
-class KPIWeight(models.Model):
-    kpi_group = models.ForeignKey(KPIGroup, on_delete=models.CASCADE, related_name='weights')
-    position = models.CharField(max_length=50)
-    group_weight = models.FloatField()
-    weight = models.FloatField()
+class KPIIndicator(models.Model):
+    """Показатель внутри группы. weight = W_base (базовый вес показателя).
+    entity_kind задаёт, какие дополнительные поля показывать в форме создания работы.
+    """
+    ENTITY_KIND_CHOICES = [
+        ('none', 'Без дополнительных полей'),
+        ('article', 'Статья'),
+        ('monograph', 'Монография'),
+        ('dissertation', 'Диссертация'),
+        ('software', 'ПО'),
+        ('grant', 'Участие в проекте'),
+    ]
+
+    kpi_group = models.ForeignKey(KPIGroup, on_delete=models.CASCADE, related_name='indicators')
+    name = models.CharField(max_length=200, help_text='Название показателя')
+    work_type_key = models.CharField(max_length=100, help_text='Ключ для сопоставления с work_type работ')
+    weight = models.FloatField(default=1.0, help_text='W_base — базовый вес показателя')
+    entity_kind = models.CharField(
+        max_length=20, choices=ENTITY_KIND_CHOICES, default='none',
+        help_text='Тип сущности-подтипа научной работы (для других категорий — none)',
+    )
 
     class Meta:
-        db_table = 'kpi_weight'
+        db_table = 'kpi_indicator'
 
     def __str__(self):
-        return f'{self.kpi_group.name} — {self.position}: W={self.group_weight}, w={self.weight}'
+        return f'{self.kpi_group.name} → {self.name} (W_base={self.weight})'
+
+
+class KPIGroupWeight(models.Model):
+    """Вес группы (Wi) для конкретной должности (и года аспирантуры)."""
+    kpi_group = models.ForeignKey(KPIGroup, on_delete=models.CASCADE, related_name='position_weights')
+    position_type = models.CharField(max_length=32, choices=Employee.POSITION_TYPE_CHOICES)
+    phd_year = models.IntegerField(null=True, blank=True)
+    weight = models.FloatField(default=1.0)
+
+    class Meta:
+        db_table = 'kpi_group_weight'
+        unique_together = ['kpi_group', 'position_type', 'phd_year']
+
+    def __str__(self):
+        suffix = f', курс {self.phd_year}' if self.phd_year else ''
+        return f'{self.kpi_group.name} / {self.position_type}{suffix} = {self.weight}'
 
 
 class KPIResult(models.Model):
@@ -274,6 +320,40 @@ class KPIResult(models.Model):
 
     def __str__(self):
         return f'{self.employee} — {self.year} Q{self.quarter}: IPI={self.total_ipi}'
+
+
+# ============================================================
+#  Проекты
+# ============================================================
+
+class Project(models.Model):
+    name = models.CharField(max_length=300)
+    description = models.TextField(null=True, blank=True)
+    budget = models.FloatField(null=True, blank=True)
+    start_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
+    creator = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='created_projects')
+    completed_at = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'project'
+
+    def __str__(self):
+        return self.name
+
+
+class ProjectMember(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='members')
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='project_memberships')
+    joined_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'project_member'
+        unique_together = ['project', 'employee']
+
+    def __str__(self):
+        return f'{self.project.name} — {self.employee.full_name}'
 
 
 # ============================================================
@@ -299,6 +379,9 @@ class Task(models.Model):
     priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='medium')
     deadline = models.DateField()
     kpi_group = models.ForeignKey(KPIGroup, on_delete=models.SET_NULL, null=True, blank=True, related_name='tasks')
+    work_type_key = models.CharField(max_length=100, null=True, blank=True)
+    points = models.FloatField(default=0)
+    project = models.ForeignKey('Project', on_delete=models.CASCADE, null=True, blank=True, related_name='tasks')
     assigned_to = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True, related_name='assigned_tasks')
     created_by = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='created_tasks')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -308,3 +391,60 @@ class Task(models.Model):
 
     def __str__(self):
         return f'{self.title} ({self.status})'
+
+
+# ============================================================
+#  Вложения (файлы к работам и задачам)
+# ============================================================
+
+class Attachment(models.Model):
+    file = models.FileField(upload_to='attachments/%Y/%m/')
+    original_name = models.CharField(max_length=255)
+    size = models.IntegerField(default=0)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    uploaded_by = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, related_name='uploaded_attachments')
+
+    # К чему прикреплено — ровно одно из:
+    scientific_work = models.ForeignKey(ScientificWork, on_delete=models.CASCADE, null=True, blank=True, related_name='attachments')
+    organizational_work = models.ForeignKey(OrganizationalWork, on_delete=models.CASCADE, null=True, blank=True, related_name='attachments')
+    technical_work = models.ForeignKey(TechnicalWork, on_delete=models.CASCADE, null=True, blank=True, related_name='attachments')
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True, blank=True, related_name='attachments')
+
+    class Meta:
+        db_table = 'attachment'
+
+    def __str__(self):
+        return self.original_name
+
+
+# ============================================================
+#  Правила продукционной экспертной системы
+# ============================================================
+
+class Rule(models.Model):
+    """Правило экспертной системы для определения поправочного коэффициента
+    или множителя по характеристикам сотрудника или работы."""
+
+    RULE_TYPE_CHOICES = [
+        ('k_age', 'Поправка по возрасту'),
+        ('k_experience', 'Поправка по стажу научной работы'),
+        ('k_phd', 'Поправка по году обучения в аспирантуре'),
+        ('quartile', 'Множитель квартиля журнала'),
+    ]
+
+    rule_type = models.CharField(max_length=20, choices=RULE_TYPE_CHOICES)
+    description = models.CharField(max_length=300, help_text='Текстовое описание правила')
+    min_value = models.IntegerField(null=True, blank=True,
+                                    help_text='Нижняя граница диапазона (включительно), либо NULL')
+    max_value = models.IntegerField(null=True, blank=True,
+                                    help_text='Верхняя граница диапазона (включительно), либо NULL')
+    coefficient = models.FloatField(default=1.0, help_text='Итоговый коэффициент / множитель')
+    priority = models.IntegerField(default=100,
+                                   help_text='Порядок проверки (меньше — раньше)')
+
+    class Meta:
+        db_table = 'rule'
+        ordering = ['rule_type', 'priority']
+
+    def __str__(self):
+        return f'[{self.get_rule_type_display()}] {self.description} → {self.coefficient}'

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Карточка проекта — IPI System</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .project-header-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 28px; margin-bottom: 20px;
+    }
+    .header-top { display: flex; gap: 20px; align-items: flex-start; }
+    .icon-lg {
+      width: 56px; height: 56px; background: var(--primary-soft); color: var(--primary);
+      border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      font-size: 24px; flex-shrink: 0;
+    }
+    .project-h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+    .project-desc { color: var(--text-secondary); font-size: 14px; margin-top: 8px; }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+      padding-top: 20px; border-top: 1px solid var(--border); margin-top: 20px;
+    }
+    .stat-mini { display: flex; flex-direction: column; gap: 2px; }
+    .stat-mini-lbl { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+    .stat-mini-val { font-size: 14px; font-weight: 500; }
+
+    .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .member-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 14px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .member-head { display: flex; align-items: center; gap: 10px; }
+    .stat-pill {
+      display: inline-flex; align-items: baseline; gap: 4px;
+      padding: 3px 9px; background: #fff; border: 1px solid var(--border);
+      border-radius: 10px; font-size: 11px;
+    }
+    .stat-pill b { color: var(--text-primary); font-size: 12px; }
+    .stat-pill.done { border-color: var(--success); background: var(--success-light); }
+    .stat-pill.done b { color: var(--success); }
+    .stat-pill.bad { border-color: var(--danger); background: var(--danger-light); }
+    .stat-pill.bad b { color: var(--danger); }
+    .member-bar { height: 4px; background: #fff; border-radius: 2px; overflow: hidden; }
+    .member-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--success)); }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">IPI</div>
+      <div><div class="logo-title">IPI System</div><span class="logo-sub">Scientific KPI</span></div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">
+        <span class="nav-label">Основное</span>
+        <div class="nav-item">Главная</div>
+        <div class="nav-item">Мои работы</div>
+        <div class="nav-item">Задачи</div>
+        <div class="nav-item active">Проекты</div>
+        <div class="nav-item">Мой KPI</div>
+      </div>
+      <div class="nav-section">
+        <span class="nav-label">Управление</span>
+        <div class="nav-item">Мой отдел</div>
+        <div class="nav-item">Настройка KPI</div>
+        <div class="nav-item">Сотрудники</div>
+      </div>
+    </nav>
+    <div class="user-card">
+      <div class="user-avatar">ИФ</div>
+      <div><div class="user-name">Имя Фамилия</div><div class="user-role">Должность</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <div class="header-title">Карточка проекта</div>
+      <span class="muted">Имя Отчество Фамилия</span>
+    </div>
+
+    <div class="content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <a href="projects.html" class="btn btn-ghost">← Назад к проектам</a>
+        <div class="flex gap-8">
+          <button class="btn btn-success">✓ Завершить проект</button>
+          <button class="btn">✎ Редактировать</button>
+          <button class="btn btn-danger">Удалить</button>
+        </div>
+      </div>
+
+      <div class="project-header-card">
+        <div class="header-top">
+          <div class="icon-lg">▣</div>
+          <div style="flex: 1;">
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <h1 class="project-h1">Название проекта</h1>
+              <span class="tag tag-success">Активный</span>
+            </div>
+            <p class="project-desc">Описание проекта — Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat-mini">
+            <div class="stat-mini-lbl">Создатель</div>
+            <div class="stat-mini-val">Имя Отчество Фамилия</div>
+          </div>
+          <div class="stat-mini">
+            <div class="stat-mini-lbl">Период</div>
+            <div class="stat-mini-val">00.00.0000 — 00.00.0000</div>
+          </div>
+          <div class="stat-mini">
+            <div class="stat-mini-lbl">Бюджет</div>
+            <div class="stat-mini-val">0 000 000 ₽</div>
+          </div>
+          <div class="stat-mini">
+            <div class="stat-mini-lbl">Участников</div>
+            <div class="stat-mini-val">00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active">Информация и участники</div>
+        <div class="tab">Задачи <span class="tab-badge">00</span></div>
+      </div>
+
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <h3 style="font-size: 16px;">Участники (00)</h3>
+          <button class="btn btn-sm btn-primary">+ Добавить</button>
+        </div>
+
+        <div class="members-grid">
+          <div class="member-card">
+            <div class="member-head">
+              <div class="avatar">ИФ</div>
+              <div style="flex: 1;">
+                <div style="font-weight: 500; font-size: 13px;">Имя Отчество Фамилия</div>
+                <div class="muted" style="font-size: 11px;">Создатель</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <div class="stat-pill"><b>00</b><span>всего</span></div>
+              <div class="stat-pill done"><b>00</b><span>сделано</span></div>
+              <div class="stat-pill"><b>0</b><span>в работе</span></div>
+            </div>
+            <div class="member-bar"><div class="member-bar-fill" style="width: 80%;"></div></div>
+          </div>
+
+          <div class="member-card">
+            <div class="member-head">
+              <div class="avatar">ИФ</div>
+              <div style="flex: 1;">
+                <div style="font-weight: 500; font-size: 13px;">Имя Отчество Фамилия</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <div class="stat-pill"><b>00</b><span>всего</span></div>
+              <div class="stat-pill done"><b>00</b><span>сделано</span></div>
+              <div class="stat-pill"><b>0</b><span>в работе</span></div>
+              <div class="stat-pill bad"><b>00</b><span>просрочено</span></div>
+            </div>
+            <div class="member-bar"><div class="member-bar-fill" style="width: 50%;"></div></div>
+          </div>
+
+          <div class="member-card">
+            <div class="member-head">
+              <div class="avatar">ИФ</div>
+              <div style="flex: 1;">
+                <div style="font-weight: 500; font-size: 13px;">Имя Отчество Фамилия</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <div class="stat-pill"><b>00</b><span>всего</span></div>
+              <div class="stat-pill done"><b>00</b><span>сделано</span></div>
+              <div class="stat-pill"><b>0</b><span>в работе</span></div>
+            </div>
+            <div class="member-bar"><div class="member-bar-fill" style="width: 100%;"></div></div>
+          </div>
+
+          <div class="member-card">
+            <div class="member-head">
+              <div class="avatar">ИФ</div>
+              <div style="flex: 1;">
+                <div style="font-weight: 500; font-size: 13px;">Имя Отчество Фамилия</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <div class="stat-pill"><b>00</b><span>всего</span></div>
+              <div class="stat-pill done"><b>0</b><span>сделано</span></div>
+              <div class="stat-pill"><b>00</b><span>в работе</span></div>
+            </div>
+            <div class="member-bar"><div class="member-bar-fill" style="width: 30%;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
