@@ -30,3 +30,6 @@ Thumbs.db
 *.sqlite3
 media/
 staticfiles/
+
+# Mockups
+mockups/
