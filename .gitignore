@@ -30,6 +30,7 @@ Thumbs.db
 *.sqlite3
 media/
 staticfiles/
+backend/manage.py
 
 # Mockups
 mockups/
